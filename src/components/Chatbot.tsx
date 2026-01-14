@@ -77,7 +77,7 @@ export default function Chatbot() {
             </button>
           </div>
           
-          <ChatbotUI />
+          <ChatbotUI onClose={() => setIsOpen(false)} />
         </div>
       )}
     </div>

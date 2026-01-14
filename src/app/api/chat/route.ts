@@ -1,6 +1,33 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { GoogleGenerativeAI } from '@google/generative-ai';
+import { GoogleGenerativeAI, FunctionDeclarationSchemaType } from '@google/generative-ai';
 import { bakeryInfo, menuItems } from '@/data/bakeryData';
+
+const tools = [
+  {
+    functionDeclarations: [
+      {
+        name: "place_order",
+        description: "Place a new order for the customer.",
+        parameters: {
+          type: FunctionDeclarationSchemaType.OBJECT,
+          properties: {
+            items: {
+              type: FunctionDeclarationSchemaType.ARRAY,
+              items: {
+                type: FunctionDeclarationSchemaType.OBJECT,
+                properties: {
+                  name: { type: FunctionDeclarationSchemaType.STRING },
+                  quantity: { type: FunctionDeclarationSchemaType.NUMBER }
+                },
+                required: ["name", "quantity"]
+              }
+            }
+          }
+        }
+      }
+    ]
+  }
+];
 
 export async function POST(req: NextRequest) {
   try {
@@ -8,56 +35,51 @@ export async function POST(req: NextRequest) {
     const { message, history } = body;
     const apiKey = process.env.GEMINI_API_KEY;
 
-    if (!apiKey || apiKey === 'your_gemini_api_key_here') {
-      return NextResponse.json({ 
-        text: "I'm currently running in demo mode. Please configure the GEMINI_API_KEY to enable my full intelligence!" 
-      });
-    }
+    if (!apiKey) return NextResponse.json({ text: "API Key missing" }, { status: 500 });
 
     const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-exp" });
+    const model = genAI.getGenerativeModel({ 
+      model: "gemini-2.0-flash-exp",
+      tools: tools
+    });
 
-    // Construct the context string
     const context = `
-      You are the friendly and helpful AI assistant for "Little Loaf Bakery".
+      You are the friendly assistant for "Little Loaf Bakery".
       
-      Here is the bakery information:
+      BAKERY INFO:
       ${JSON.stringify(bakeryInfo, null, 2)}
       
-      Here is the menu:
+      MENU:
       ${JSON.stringify(menuItems, null, 2)}
       
-      Your Role:
-      1. Answer questions about our menu, ingredients, and pricing (assume reasonable prices if not listed, or say "prices vary").
-      2. Provide information about hours, location, and pick-up/delivery.
-      3. Be warm, inviting, and use emoji occasionally (like 🥖, 🥐, 🍪).
-      4. If someone wants to order, ask for their name and email, and list the items they want.
-      5. Keep responses concise (under 3 sentences) unless listing the menu.
+      ROLE:
+      - Be warm and personal.
+      - If the history contains their name or preferences, USE THEM.
+      - You can process orders but for now just confirm the details to the user.
     `;
+
+    // Map client history to Gemini format
+    const chatHistory = (history || []).map((h: any) => ({
+      role: h.role === 'agent' ? 'model' : 'user',
+      parts: [{ text: h.text }]
+    }));
 
     const chat = model.startChat({
       history: [
-        {
-          role: "user",
-          parts: [{ text: "System Instruction: " + context }],
-        },
-        {
-          role: "model",
-          parts: [{ text: "Understood! I am ready to serve as the Little Loaf Bakery assistant." }],
-        },
-        ...history.map((msg: any) => ({
-          role: msg.role === 'agent' ? 'model' : 'user',
-          parts: [{ text: msg.text }],
-        })),
+        { role: "user", parts: [{ text: "System Context: " + context }] },
+        { role: "model", parts: [{ text: "Understood." }] },
+        ...chatHistory.slice(-20) // Send last 20 messages for context
       ],
     });
 
     const result = await chat.sendMessage(message);
-    const response = result.response.text();
+    const response = await result.response;
+    const text = response.text();
 
-    return NextResponse.json({ text: response });
+    return NextResponse.json({ text });
+
   } catch (error) {
     console.error('Chat API Error:', error);
-    return NextResponse.json({ text: "I'm having a little trouble checking the oven right now. Please try again later!" }, { status: 500 });
+    return NextResponse.json({ text: "I'm having a little trouble checking the oven." }, { status: 500 });
   }
 }

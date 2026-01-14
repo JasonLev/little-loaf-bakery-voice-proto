@@ -59,7 +59,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 The goal was to incorporate the voice agent onto a potential website for a sample (and real!) business.
 Given time constraints, I scaled back initial efforts to include a dedicated DB layer (now just mocked out using LocalStorage) as well as an integration of payments using Stripe. Perhaps these features could be revisited when more time allows it.
-My focus was to showcase a beautiful design to the website, including the voice agent itself. In addition to retrieving knowledge about the Bakery, I wanted the voice agent to have more function calling. Specifically, I included ability for it to process real-time orders through a placeOrder tool, which captures structured data (name, email, items, quantities, and pickup time). With more time, I'd like to solidify this functionality by sending email confirmations as well as storing/persisting the data into a robust DB or inventory-management layer (like Shopify).
+My focus was to showcase a beautiful design to the website, including the voice agent itself. In addition to retrieving knowledge about the Bakery, I wanted the voice agent to have more function calling. Specifically, I included the ability for it to process real-time orders through a placeOrder tool, which captures structured data (name, email, items, quantities, and pickup time). With more time, I'd like to solidify this functionality by sending email confirmations as well as storing/persisting the data into a robust DB or inventory-management layer (like Shopify).
 Lastly, with more time, I'd like to clean up the chat history functionality -- what's there now is a good start.
 
 ## Getting Started to run the app

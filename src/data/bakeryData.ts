@@ -10,7 +10,7 @@ export const bakeryInfo = {
   },
   delivery: "Delivery options can be worked out upon request.",
   contact: {
-    //email: "",
+    email: "hello@littleloafbakeryla.com",
     instagram: "@littleloafbakeryla",
   },
   about: {
@@ -23,16 +23,20 @@ export const bakeryInfo = {
 export const menuItems = [
   {
     id: "sourdough-classic",
-    name: "Classic Country Sourdough",
-    description: "Our signature loaf with a crisp crust and airy crumb.",
+    name: "Classic Sourdough",
+    description: "Slow-fermented for 48 hours with our organic starter.",
+    price: 15,
+    category: "Sourdough Bread",
+    image:
+      "https://images.unsplash.com/photo-1596575666733-cbcea306ac16?auto=format&fit=crop&q=80&w=600",
     ingredients: ["Organic Bread Flour", "Water", "Sea Salt"],
-    category: "Sourdough bread",
     inStock: true,
   },
   {
     id: "sourdough-rosemary",
     name: "Rosemary & Garlic Sourdough",
     description: "Fragrant fresh rosemary and roasted garlic cloves.",
+    price: 17,
     ingredients: [
       "Organic Bread Flour",
       "Water",
@@ -40,7 +44,27 @@ export const menuItems = [
       "Fresh Rosemary",
       "Roasted Garlic",
     ],
-    category: "Sourdough bread",
+    category: "Sourdough Bread",
+    image:
+      "https://images.unsplash.com/photo-1596575666733-cbcea306ac16?auto=format&fit=crop&q=80&w=600",
+    inStock: true,
+  },
+  {
+    id: "Challah",
+    name: "Challah Bread",
+    description:
+      "Signature Challah bread braided with love. Various toppings available.",
+    price: 12, // Changed from '$12.00' to 12
+    category: "Bread",
+    image:
+      "https://images.unsplash.com/photo-1609970957077-6baa39b4a749?auto=format&fit=crop&q=80&w=600",
+    ingredients: [
+      "Organic Bread Flour",
+      "Water",
+      "Sea Salt",
+      "Fresh Rosemary",
+      "Roasted Garlic",
+    ],
     inStock: true,
   },
   {
@@ -59,10 +83,14 @@ export const menuItems = [
   },
   {
     id: "brownie-fudge",
-    name: "Double Fudge Brownies",
-    description: "Rich and decadent brownies for the true chocolate lover.",
+    name: "Sourdough Fudge Brownies",
+    description:
+      "A sourdough-base makes these fudge brownies gut-healthy, so treat yourself without the guilt.",
+    price: 8,
     ingredients: ["Cocoa Powder", "Butter", "Sugar", "Eggs", "Vanilla"],
     category: "Cookies and brownies",
+    image:
+      "https://images.unsplash.com/photo-1593114350460-f1e299ad40c4?auto=format&fit=crop&q=80&w=600",
     inStock: true,
   },
   {
@@ -90,6 +118,9 @@ export const menuItems = [
     id: "granola-honey",
     name: "Honey Nut Granola",
     description: "Crunchy clusters of oats, nuts, and honey.",
+    price: 9,
+    image:
+      "https://images.unsplash.com/photo-1668723968333-28fff638eecd?auto=format&fit=crop&q=80&w=600",
     ingredients: ["Organic Oats", "Honey", "Almonds", "Pecans", "Coconut Oil"],
     category: "Granola",
     inStock: true,

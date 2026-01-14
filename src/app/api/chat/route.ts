@@ -1,6 +1,6 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { GoogleGenerativeAI, FunctionDeclarationSchemaType } from '@google/generative-ai';
-import { bakeryInfo, menuItems } from '@/data/bakeryData';
+import { NextRequest, NextResponse } from "next/server";
+import { GoogleGenerativeAI, SchemaType } from "@google/generative-ai";
+import { bakeryInfo, menuItems } from "@/data/bakeryData";
 
 const tools = [
   {
@@ -9,24 +9,24 @@ const tools = [
         name: "place_order",
         description: "Place a new order for the customer.",
         parameters: {
-          type: FunctionDeclarationSchemaType.OBJECT,
+          type: SchemaType.OBJECT,
           properties: {
             items: {
-              type: FunctionDeclarationSchemaType.ARRAY,
+              type: SchemaType.ARRAY,
               items: {
-                type: FunctionDeclarationSchemaType.OBJECT,
+                type: SchemaType.OBJECT,
                 properties: {
-                  name: { type: FunctionDeclarationSchemaType.STRING },
-                  quantity: { type: FunctionDeclarationSchemaType.NUMBER }
+                  name: { type: SchemaType.STRING },
+                  quantity: { type: SchemaType.NUMBER },
                 },
-                required: ["name", "quantity"]
-              }
-            }
-          }
-        }
-      }
-    ]
-  }
+                required: ["name", "quantity"],
+              },
+            },
+          },
+        },
+      },
+    ],
+  },
 ];
 
 export async function POST(req: NextRequest) {
@@ -35,12 +35,12 @@ export async function POST(req: NextRequest) {
     const { message, history } = body;
     const apiKey = process.env.GEMINI_API_KEY;
 
-    if (!apiKey) return NextResponse.json({ text: "API Key missing" }, { status: 500 });
+    if (!apiKey)
+      return NextResponse.json({ text: "API Key missing" }, { status: 500 });
 
     const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel({ 
+    const model = genAI.getGenerativeModel({
       model: "gemini-2.0-flash-exp",
-      tools: tools
     });
 
     const context = `
@@ -60,15 +60,15 @@ export async function POST(req: NextRequest) {
 
     // Map client history to Gemini format
     const chatHistory = (history || []).map((h: any) => ({
-      role: h.role === 'agent' ? 'model' : 'user',
-      parts: [{ text: h.text }]
+      role: h.role === "agent" ? "model" : "user",
+      parts: [{ text: h.text }],
     }));
 
     const chat = model.startChat({
       history: [
         { role: "user", parts: [{ text: "System Context: " + context }] },
         { role: "model", parts: [{ text: "Understood." }] },
-        ...chatHistory.slice(-20) // Send last 20 messages for context
+        ...chatHistory.slice(-20), // Send last 20 messages for context
       ],
     });
 
@@ -77,9 +77,11 @@ export async function POST(req: NextRequest) {
     const text = response.text();
 
     return NextResponse.json({ text });
-
   } catch (error) {
-    console.error('Chat API Error:', error);
-    return NextResponse.json({ text: "I'm having a little trouble checking the oven." }, { status: 500 });
+    console.error("Chat API Error:", error);
+    return NextResponse.json(
+      { text: "I'm having a little trouble checking the oven." },
+      { status: 500 }
+    );
   }
 }

@@ -1,0 +1,105 @@
+export const bakeryInfo = {
+  name: "Little Loaf Bakery",
+  tagline: "Artisanal Handcrafted Sourdough & Sweet Treats",
+  location: "West Los Angeles, CA",
+  hours: {
+    monday_thursday: "5:00pm - 7:00pm",
+    friday: "3:00pm - 4:00pm",
+    sunday: "4:00pm - 5:00pm",
+    special_request: "Available upon special request",
+  },
+  delivery: "Delivery options can be worked out upon request.",
+  contact: {
+    //email: "",
+    instagram: "@littleloafbakeryla",
+  },
+  about: {
+    team: "Run by a dedicated husband and wife team: our Chief Dad and Happiness Officer and our Chief Mom and 'Love Love' Officer.",
+    philosophy:
+      "Everything we bake is made with love in small batches. We are a handcrafted, Kosher kitchen using organic ingredients whenever possible.",
+  },
+};
+
+export const menuItems = [
+  {
+    id: "sourdough-classic",
+    name: "Classic Country Sourdough",
+    description: "Our signature loaf with a crisp crust and airy crumb.",
+    ingredients: ["Organic Bread Flour", "Water", "Sea Salt"],
+    category: "Sourdough bread",
+    inStock: true,
+  },
+  {
+    id: "sourdough-rosemary",
+    name: "Rosemary & Garlic Sourdough",
+    description: "Fragrant fresh rosemary and roasted garlic cloves.",
+    ingredients: [
+      "Organic Bread Flour",
+      "Water",
+      "Sea Salt",
+      "Fresh Rosemary",
+      "Roasted Garlic",
+    ],
+    category: "Sourdough bread",
+    inStock: true,
+  },
+  {
+    id: "cookie-choc-chip",
+    name: "Sea Salt Chocolate Chip Cookies",
+    description: "Soft, chewy, and loaded with premium dark chocolate.",
+    ingredients: [
+      "Organic Flour",
+      "Butter",
+      "Brown Sugar",
+      "Dark Chocolate",
+      "Sea Salt",
+    ],
+    category: "Cookies and brownies",
+    inStock: true,
+  },
+  {
+    id: "brownie-fudge",
+    name: "Double Fudge Brownies",
+    description: "Rich and decadent brownies for the true chocolate lover.",
+    ingredients: ["Cocoa Powder", "Butter", "Sugar", "Eggs", "Vanilla"],
+    category: "Cookies and brownies",
+    inStock: true,
+  },
+  {
+    id: "bread-banana",
+    name: "Banana Nut Bliss",
+    description: "A favorite! Moist banana bread packed with walnuts.",
+    ingredients: ["Bananas", "Walnuts", "Organic Flour", "Sugar", "Cinnamon"],
+    category: "Dessert breads",
+    inStock: true,
+  },
+  {
+    id: "bread-pumpkin",
+    name: "Pumpkin Chip Delight",
+    description: "Spiced pumpkin bread with dark chocolate chips.",
+    ingredients: [
+      "Pumpkin Puree",
+      "Chocolate Chips",
+      "Spices",
+      "Organic Flour",
+    ],
+    category: "Dessert breads",
+    inStock: true,
+  },
+  {
+    id: "granola-honey",
+    name: "Honey Nut Granola",
+    description: "Crunchy clusters of oats, nuts, and honey.",
+    ingredients: ["Organic Oats", "Honey", "Almonds", "Pecans", "Coconut Oil"],
+    category: "Granola",
+    inStock: true,
+  },
+  {
+    id: "pie-apple",
+    name: "Seasonal Apple Crumble Pie",
+    description: "Warm apples with a buttery oat crumble topping.",
+    ingredients: ["Apples", "Butter", "Oats", "Cinnamon", "Organic Flour"],
+    category: "Seasonal pies",
+    inStock: false,
+  },
+];
